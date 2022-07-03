@@ -7,6 +7,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {colors} from '../../utils/colors';
 import {HomeStackNavigation} from './HomeStackNavigation';
+import MenuScreen from '../../screens/MenuScreen';
 const Tab = createBottomTabNavigator();
 
 export const BottomNavigation = () => (
@@ -62,8 +63,8 @@ export const BottomNavigation = () => (
         }}
       />
       <Tab.Screen
-        name={screens.MENU}
-        component={Home}
+        name={screens.MENUSCREEN}
+        component={MenuScreen}
         options={{
           tabBarIcon(props) {
             return (

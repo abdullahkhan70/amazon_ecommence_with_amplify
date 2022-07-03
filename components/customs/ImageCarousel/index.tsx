@@ -49,7 +49,7 @@ const ImageCarousel: FC<ImageCarouselProps> = ({images}) => {
         onViewableItemsChanged={onViewRef?.current}
       />
       <View style={styles.dot}>
-        {images.map((items, index) => (
+        {images?.map((items, index) => (
           <View
             style={{
               ...styles.dots,

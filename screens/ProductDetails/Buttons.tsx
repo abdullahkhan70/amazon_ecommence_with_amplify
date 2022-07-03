@@ -1,14 +1,8 @@
 import {View, Text, TouchableOpacity, PixelRatio} from 'react-native';
 import React, {FC} from 'react';
 import {styles} from './styles';
-
-interface ButtonsProps {
-  buttonBackgroundColor: string;
-  buttonText: string;
-  marginTop: number;
-  onPress?: () => void;
-  borderWidth?: Boolean;
-}
+import {ButtonsProps} from '../../utils/hooks/types/productDetailTypes';
+import {colors} from '../../utils/colors';
 
 const Buttons: FC<ButtonsProps> = ({
   buttonBackgroundColor,
@@ -16,6 +10,7 @@ const Buttons: FC<ButtonsProps> = ({
   marginTop,
   onPress,
   borderWidth = false,
+  textColor = colors.black,
 }) => {
   return (
     <TouchableOpacity
@@ -26,7 +21,7 @@ const Buttons: FC<ButtonsProps> = ({
         borderWidth: borderWidth ? 1 : 0,
       }}
       onPress={onPress}>
-      <Text style={styles.buttonText}>{buttonText}</Text>
+      <Text style={{...styles.buttonText, color: textColor}}>{buttonText}</Text>
     </TouchableOpacity>
   );
 };

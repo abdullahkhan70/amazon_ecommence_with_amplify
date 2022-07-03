@@ -18,4 +18,7 @@ export const colors = {
   countryPickerBtnColor: '#E7E7E9',
   activeTabBarColor: '#087F90',
   inActiveTabBarColor: '#484848',
+  signInTitleColor: '#A1A1A1',
+  signInBtnColors: '#FF9200',
+  createAnAccountTextColor: '#7B7B7B',
 };

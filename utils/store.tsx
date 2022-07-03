@@ -1,15 +1,16 @@
-import {configureStore, Store} from '@reduxjs/toolkit';
-import productDetailsSlice from './redux/productDetailsSlice';
-import shoppingCartSlice from './redux/shoppingCartSlice';
-import userInfoSlice from './redux/userInfoSlice';
-
+import {configureStore, getDefaultMiddleware} from '@reduxjs/toolkit';
+import createSagaMiddleware from 'redux-saga';
+import logger from 'redux-logger';
+import {reducer} from './reducer';
+import {rootSaga} from './sagas/rootSaga';
+const reduxSagaMiddleware = createSagaMiddleware();
 export const store = configureStore({
-  reducer: {
-    productDetailsSlice: productDetailsSlice,
-    shoppingCartSlice: shoppingCartSlice,
-    userInfoSlice: userInfoSlice,
-  },
+  reducer: reducer,
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({thunk: false}).concat(reduxSagaMiddleware, logger),
 });
+
+reduxSagaMiddleware.run(rootSaga);
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

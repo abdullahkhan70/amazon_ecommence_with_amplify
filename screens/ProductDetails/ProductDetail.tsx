@@ -1,8 +1,7 @@
 import {View, Text, TouchableOpacity, PixelRatio, Alert} from 'react-native';
-import React from 'react';
+import React, {FC} from 'react';
 import {styles} from './styles';
 import {labels, screens} from '../../utils/strings';
-import product from '../../utils/lists/product';
 import PriceText from '../../components/customs/CustomMethods/PriceText';
 import {colors} from '../../utils/colors';
 import ContentSub from './ContentSub';
@@ -11,17 +10,36 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Buttons from './Buttons';
 import Quantity from './Quantity';
 import {useNavigation} from '@react-navigation/core';
-const ProductDetail = () => {
+import {ProductDetails} from '../../utils/hooks/types/productDetailTypes';
+import {Auth, DataStore} from 'aws-amplify';
+import {CartProduct} from '../../src/models';
+import {useAppSelector} from '../../utils/hooks/reduxHooks';
+const ProductDetail: FC<ProductDetails> = ({products = {}}) => {
   const navigation = useNavigation();
-  const handleAddToCart = () => {
-    navigation.navigate(screens.SHOPPINGCART as never);
+  const selQuantity = useAppSelector(
+    state => state.productDetailsSlice.quantity,
+  );
+  const handleAddToCart = async () => {
+    const userId = await Auth.currentAuthenticatedUser();
+    console.log(`Current user ID: ${userId.attributes.sub}`);
+    if (!products || !userId) {
+      return;
+    }
+    const newCartToItem = new CartProduct({
+      userSub: userId.attributes.sub,
+      prodictId: products.id,
+      quantity: selQuantity,
+    });
+    const result = await DataStore.save(newCartToItem);
+    console.log(result);
+    // navigation.navigate(screens.SHOPPINGCART as never);
   };
   const handleBuyNow = () => {
     Alert.alert('', 'But Now has been pressed.');
   };
   return (
     <View style={styles.productDetailMainView}>
-      <PriceText price={product.price} />
+      <PriceText price={products?.price?.toFixed(2)} />
       <ContentSub
         firstText={labels.importFeesText}
         otherSellers={labels.detailText}

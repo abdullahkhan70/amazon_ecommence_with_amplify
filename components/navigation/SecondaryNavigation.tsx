@@ -8,11 +8,14 @@ import ProductDetail from '../../screens/ProductDetails/ProductDetail';
 import {store} from '../../utils/store';
 import {screens} from '../../utils/strings';
 import {BottomNavigation} from './BottomNavigation';
-
+import awsConfig from '../../src/aws-exports';
+import {Amplify} from 'aws-amplify';
 const Stack = createNativeStackNavigator();
 const PERSISTENCE_KEY = 'NAVIGATION_STATE_V1';
-
-export const SecondaryNavigation = () => {
+// @ts-ignore
+import {withAuthenticator} from 'aws-amplify-react-native';
+Amplify.configure(awsConfig);
+const SecondaryNavigation = () => {
   const [isReady, setIsReady] = useState(false);
   const [initialState, setInitialState] = useState();
 
@@ -63,3 +66,4 @@ export const SecondaryNavigation = () => {
     </Provider>
   );
 };
+export default withAuthenticator(SecondaryNavigation);

@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "serviceConfiguration": {
+    "apiName": "amazonecomamplify",
+    "serviceName": "AppSync",
+    "gqlSchemaPath": "D:\\React Native\\amazon_ecommence_with_amplify\\amplify\\backend\\api\\amazonecomamplify\\schema.graphql",
+    "defaultAuthType": {
+      "mode": "API_KEY",
+      "expirationTime": 7
+    },
+    "conflictResolution": {
+      "defaultResolutionStrategy": {
+        "type": "AUTOMERGE"
+      }
+    }
+  }
+}

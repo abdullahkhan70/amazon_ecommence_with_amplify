@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import React, {FC} from 'react';
-import products from '../../utils/lists/products';
+// import products from '../../utils/lists/products';
 import {styles} from './styles';
 import {labels, screens} from '../../utils/strings';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -19,17 +19,24 @@ import {
   productsTypes,
 } from '../../utils/hooks/types/productsTypes';
 import ShoppingCartOptions from '../../components/customs/ShoppingCart/ShoppingCartOptions';
+import {useAppDispatch} from '../../utils/hooks/reduxHooks';
+import {setproductId} from '../../utils/redux/productDetailsSlice';
 
 const Products: FC<productsTypes> = ({
   shoppingCartScreen = false,
   screenName,
+  products = [],
 }) => {
+  const dispatch = useAppDispatch();
   const navigation = useNavigation();
-  const handleProductDetails = () => {
+  const handleProductDetails = (id: string) => {
+    dispatch(setproductId(String(id)));
     navigation.navigate(screenName as never);
   };
   const renderItems = ({item, index}: productRenderItemsProps) => (
-    <TouchableOpacity activeOpacity={0.2} onPress={handleProductDetails}>
+    <TouchableOpacity
+      activeOpacity={0.2}
+      onPress={() => handleProductDetails(item?.id)}>
       <View
         style={{
           borderWidth: shoppingCartScreen ? 1 : 0,
@@ -69,9 +76,11 @@ const Products: FC<productsTypes> = ({
             </View>
             <View style={styles.productPriceView}>
               <Text style={styles.productNewPrice}>
-                {labels.from + item?.price}
+                {labels.from + item?.price.toFixed(2)}
               </Text>
-              <Text style={styles.producOldPrice}>{item?.oldPrice}</Text>
+              <Text style={styles.producOldPrice}>
+                {item?.oldPrice.toFixed(2)}
+              </Text>
             </View>
             {item?.saveUpto > 0 ? (
               <View
@@ -125,6 +134,7 @@ const Products: FC<productsTypes> = ({
         renderItem={renderItems}
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={renderHeader}
+        keyExtractor={(item, index) => item.id.toString()}
       />
     </>
   );
